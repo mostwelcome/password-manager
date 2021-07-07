@@ -3,7 +3,7 @@ from tkinter import messagebox
 import random
 import pyperclip
 import json
-import string
+from constants import LETTERS, DIGITS, SYMBOLS, NO_OF_LETTERS, NO_OF_DIGITS, NO_OF_SYMBOLS
 
 # ---------------------------- Search Password ------------------------------- #
 
@@ -32,27 +32,14 @@ def generate_password():
     if len(password_entry.get()) != 0:
         password_entry.delete(0, END)
     # Password Generator
-    letters, numbers, symbols = string.ascii_letters, string.digits, string.punctuation
-    all_chars = f'{letters}{numbers}{symbols}'
-    nr_letters = random.randint(8, 10)
-    nr_symbols = random.randint(2, 4)
-    nr_numbers = random.randint(2, 4)
-    password_list = []
 
-    # for letter in range(1, nr_letters+1):
-    #     password_list.append(random.choice(letters))
-    print(nr_letters)
-    password_list = [random.choice(letters)
-                     for letter in range(1, nr_letters+1)]
-    password_list_numbers = [random.choice(
-        numbers) for number in range(1, nr_numbers+1)]
-    password_list_symbols = [random.choice(
-        symbols) for symbol in range(1, nr_symbols+1)]
+    pass_letters = [random.choice(LETTERS) for _ in range(NO_OF_LETTERS)]
+    pass_digits = [random.choice(DIGITS) for _ in range(NO_OF_DIGITS)]
+    pass_symbols = [random.choice(SYMBOLS) for _ in range(NO_OF_SYMBOLS)]
 
-    password_list.extend(password_list_symbols)
-    password_list.extend(password_list_numbers)
-    random.shuffle(password_list)
-    password = ''.join(password_list)
+    password = pass_letters + pass_digits + pass_symbols
+    random.shuffle(password)
+    password = ''.join(password)
     password_entry.insert(0, password)
     # copy the password to clip board as we don't need to copy paste manually
     pyperclip.copy(password)
