@@ -1,3 +1,4 @@
+"""PasswordManager class."""
 from tkinter import Tk, Canvas, Label, Entry, Button, PhotoImage
 from utilities import generate_password, search_password, save
 
@@ -52,6 +53,7 @@ class PasswordManager:
         self.save_button.grid(row=6, column=1, columnspan=2)
 
     def configure_window(self):
+        """Configure application window."""
         self._set_window()
         self._set_canvas()
         self._set_labels()
@@ -59,4 +61,5 @@ class PasswordManager:
         self._set_buttons()
 
     def render_window(self):
+        """Render application window."""
         self.window.mainloop()
