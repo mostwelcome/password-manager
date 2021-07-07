@@ -2,8 +2,8 @@ import random
 import json
 import pyperclip
 from tkinter import messagebox
-from constants import LETTERS, DIGITS, SYMBOLS, NO_OF_LETTERS, NO_OF_DIGITS, NO_OF_SYMBOLS, END
-from messages import WEBSITE_DETAILS_MSG, NO_DATA_ERR, NO_DATA_WEBSITE_ERR, EMPTY_FIELD_ERR
+from constants.constants import LETTERS, DIGITS, SYMBOLS, NO_OF_LETTERS, NO_OF_DIGITS, NO_OF_SYMBOLS, END
+from constants.messages import WEBSITE_DETAILS_MSG, NO_DATA_ERR, NO_DATA_WEBSITE_ERR, EMPTY_FIELD_ERR
 
 
 def generate_password(password_entry):
