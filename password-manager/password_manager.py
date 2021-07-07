@@ -51,5 +51,12 @@ class PasswordManager:
             self.website_entry, self.email_entry, self.password_entry))
         self.save_button.grid(row=6, column=1, columnspan=2)
 
+    def configure_window(self):
+        self._set_window()
+        self._set_canvas()
+        self._set_labels()
+        self._set_entries()
+        self._set_buttons()
+
     def render_window(self):
         self.window.mainloop()
