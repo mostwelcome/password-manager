@@ -25,11 +25,11 @@ def generate_password(password_entry):
 
 
 def search_password(website_entry):
-    try:
-        website = website_entry.get()
-        if not website:
-            messagebox.showinfo(title=FAILURE_MSG, message=WEBSITE_DETAILS_MSG)
-        else:
+    website = website_entry.get()
+    if not website:
+        messagebox.showinfo(title=FAILURE_MSG, message=WEBSITE_DETAILS_MSG)
+    else:
+        try:
             with open('data.json', 'r') as data_file:
                 data_found = json.load(data_file)
                 password_details = data_found.get(website)
@@ -38,8 +38,8 @@ def search_password(website_entry):
                 else:
                     title, message = FAILURE_MSG, NO_DATA_WEBSITE_ERR
                 messagebox.showinfo(title=title, message=message)
-    except FileNotFoundError:
-        messagebox.showinfo(message=NO_DATA_ERR)
+        except FileNotFoundError:
+            messagebox.showinfo(message=NO_DATA_ERR)
 
 
 def save(website_entry, email_entry, password_entry):
