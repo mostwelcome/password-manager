@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import Tk, Canvas, Label, Entry, Button, PhotoImage
 from utilities import generate_password, search_password, save
 
 
