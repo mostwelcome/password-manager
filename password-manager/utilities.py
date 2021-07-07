@@ -3,6 +3,7 @@ import json
 import pyperclip
 from tkinter import messagebox
 from constants import LETTERS, DIGITS, SYMBOLS, NO_OF_LETTERS, NO_OF_DIGITS, NO_OF_SYMBOLS, END
+from messages import WEBSITE_DETAILS_MSG, NO_DATA_ERR, NO_DATA_WEBSITE_ERR, EMPTY_FIELD_ERR
 
 
 def generate_password(password_entry):
@@ -27,7 +28,7 @@ def search_password(website_entry):
     try:
         website = website_entry.get()
         if not website:
-            messagebox.showinfo(message='Please give website details')
+            messagebox.showinfo(message=WEBSITE_DETAILS_MSG)
         else:
             with open('data.json', 'r') as data_file:
                 data_found = json.load(data_file)
@@ -35,9 +36,9 @@ def search_password(website_entry):
                 messagebox.showinfo(
                     title=website, message=f" Email : {password_details.get('email')} \n Password: {password_details.get('password')}")
     except FileNotFoundError:
-        messagebox.showinfo(message='Oops !! No Previous data found')
+        messagebox.showinfo(message=NO_DATA_ERR)
     except KeyError:
-        messagebox.showinfo(message='No previous data saved for this website')
+        messagebox.showinfo(message=NO_DATA_WEBSITE_ERR)
 
 
 def save(website_entry, email_entry, password_entry):
@@ -50,7 +51,7 @@ def save(website_entry, email_entry, password_entry):
     }}
     if len(website) == 0 or len(email) == 0 or len(password) == 0:
         messagebox.showinfo(
-            message='Oops !! Please make sure none of the field is empty')
+            message=EMPTY_FIELD_ERR)
     else:
         is_ok = messagebox.askokcancel(
             title=website, message=f'These are the details entered :\nEmail : {email}\nPassword :{password}\nIs it okay to save?\n')
