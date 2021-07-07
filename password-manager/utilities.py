@@ -45,7 +45,7 @@ def search_password(website_entry: Entry) -> None:
             messagebox.showinfo(message=NO_DATA_ERR)
 
 
-def save(website_entry: Entry, email_entry: Entry, password_entry: Entry) -> Entry:
+def save(website_entry: Entry, email_entry: Entry, password_entry: Entry) -> None:
     """Save password."""
     website = website_entry.get()
     email = email_entry.get()
