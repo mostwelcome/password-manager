@@ -34,7 +34,7 @@ def search_password(website_entry):
                 data_found = json.load(data_file)
                 password_details = data_found.get(website)
                 if password_details:
-                    title, message = SUCCESS_MSG, f" Email : {password_details.get('email')} \n Password: {password_details.get('password')}"
+                    title, message = SUCCESS_MSG, f"Email : {password_details.get('email')} \n Password: {password_details.get('password')}"
                 else:
                     title, message = FAILURE_MSG, NO_DATA_WEBSITE_ERR
                 messagebox.showinfo(title=title, message=message)
