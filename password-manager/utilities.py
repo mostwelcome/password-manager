@@ -3,7 +3,7 @@ import json
 import pyperclip
 from tkinter import messagebox
 from constants.constants import LETTERS, DIGITS, SYMBOLS, NO_OF_LETTERS, NO_OF_DIGITS, NO_OF_SYMBOLS, END
-from constants.messages import WEBSITE_DETAILS_MSG, NO_DATA_ERR, NO_DATA_WEBSITE_ERR, EMPTY_FIELD_ERR
+from constants.messages import WEBSITE_DETAILS_MSG, NO_DATA_ERR, NO_DATA_WEBSITE_ERR, EMPTY_FIELD_ERR, SUCCESS_MSG, FAILURE_MSG
 
 
 def generate_password(password_entry):
@@ -28,17 +28,18 @@ def search_password(website_entry):
     try:
         website = website_entry.get()
         if not website:
-            messagebox.showinfo(message=WEBSITE_DETAILS_MSG)
+            messagebox.showinfo(title=FAILURE_MSG, message=WEBSITE_DETAILS_MSG)
         else:
             with open('data.json', 'r') as data_file:
                 data_found = json.load(data_file)
-                password_details = data_found[website]
-                messagebox.showinfo(
-                    title=website, message=f" Email : {password_details.get('email')} \n Password: {password_details.get('password')}")
+                password_details = data_found.get(website)
+                if password_details:
+                    title, message = SUCCESS_MSG, f" Email : {password_details.get('email')} \n Password: {password_details.get('password')}"
+                else:
+                    title, message = FAILURE_MSG, NO_DATA_WEBSITE_ERR
+                messagebox.showinfo(title=title, message=message)
     except FileNotFoundError:
         messagebox.showinfo(message=NO_DATA_ERR)
-    except KeyError:
-        messagebox.showinfo(message=NO_DATA_WEBSITE_ERR)
 
 
 def save(website_entry, email_entry, password_entry):
@@ -50,8 +51,8 @@ def save(website_entry, email_entry, password_entry):
         'password': password
     }}
     if len(website) == 0 or len(email) == 0 or len(password) == 0:
-        messagebox.showinfo(
-            message=EMPTY_FIELD_ERR)
+        messagebox.showinfo(title=FAILURE_MSG,
+                            message=EMPTY_FIELD_ERR)
     else:
         is_ok = messagebox.askokcancel(
             title=website, message=f'These are the details entered :\nEmail : {email}\nPassword :{password}\nIs it okay to save?\n')
