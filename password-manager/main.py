@@ -1,88 +1,5 @@
 from tkinter import *
-from tkinter import messagebox
-import random
-import pyperclip
-import json
-from constants import LETTERS, DIGITS, SYMBOLS, NO_OF_LETTERS, NO_OF_DIGITS, NO_OF_SYMBOLS
-
-# ---------------------------- Search Password ------------------------------- #
-
-
-def search_password():
-
-    try:
-        website = website_entry.get()
-        if not website:
-            messagebox.showinfo(message='Please give website details')
-        else:
-            with open('data.json', 'r') as data_file:
-                data_found = json.load(data_file)
-                password_details = data_found[website]
-                messagebox.showinfo(
-                    title=website, message=f" Email : {password_details.get('email')} \n Password: {password_details.get('password')}")
-    except FileNotFoundError:
-        messagebox.showinfo(message='Oops !! No Previous data found')
-    except KeyError:
-        messagebox.showinfo(message='No previous data saved for this website')
-
-# ---------------------------- PASSWORD GENERATOR ------------------------------- #
-
-
-def generate_password():
-    if len(password_entry.get()) != 0:
-        password_entry.delete(0, END)
-    # Password Generator
-
-    pass_letters = [random.choice(LETTERS) for _ in range(NO_OF_LETTERS)]
-    pass_digits = [random.choice(DIGITS) for _ in range(NO_OF_DIGITS)]
-    pass_symbols = [random.choice(SYMBOLS) for _ in range(NO_OF_SYMBOLS)]
-
-    password = pass_letters + pass_digits + pass_symbols
-    random.shuffle(password)
-    password = ''.join(password)
-    password_entry.insert(0, password)
-    # copy the password to clip board as we don't need to copy paste manually
-    pyperclip.copy(password)
-
-
-# ---------------------------- SAVE PASSWORD ------------------------------- #
-def save():
-    website = website_entry.get()
-    email = email_entry.get()
-    password = password_entry.get()
-    new_data = {website: {
-        'email': email,
-        'password': password
-    }}
-    if len(website) == 0 or email == 0 or password == 0:
-        messagebox.showinfo(
-            message='Oops !! Please make sure none of the field is empty')
-    else:
-        is_ok = messagebox.askokcancel(
-            title=website, message=f'These are the details entered :\nEmail : {email}\nPassword :{password}\nIs it okay to save?\n')
-
-        if is_ok:
-            try:
-                with open('data.json', 'r') as data_file:
-                    # Read the old data
-                    data = json.load(data_file)
-                data.update(new_data)
-                with open('data.json', 'w') as data_file:
-                    json.dump(data, data_file, indent=4)
-            except FileNotFoundError:
-                with open('data.json', 'w') as data_file:
-                    json.dump(new_data, data_file, indent=4)
-            finally:
-                # clearing entries
-                website_entry.delete(0, END)
-                password_entry.delete(0, END)
-
-# ---------------------------- UI SETUP ------------------------------- #
-# x = [i**2 if i%2 ==0 else i for i in range(1,10)]
-# print(x)
-
-# value = 123
-# print(value, 'is', 'even' if value % 2 == 0 else 'odd')
+from utilities import generate_password, search_password, save
 
 
 window = Tk()
@@ -116,10 +33,12 @@ password_entry.grid(row=3, column=1, columnspan=2)
 
 # Buttons
 generate_password_button = Button(
-    text='Generate Password', command=generate_password)
+    text='Generate Password', command=lambda: generate_password(password_entry))
 generate_password_button.grid(row=4, column=1, columnspan=2)
-search_button = Button(text='Search Password', command=search_password)
+search_button = Button(text='Search Password',
+                       command=lambda: search_password(website_entry))
 search_button.grid(row=5, column=1, columnspan=2)
-save_button = Button(text='Save Password', width=30, command=save)
+save_button = Button(text='Save Password', width=30, command=lambda: save(
+    website_entry, email_entry, password_entry))
 save_button.grid(row=6, column=1, columnspan=2)
 window.mainloop()
