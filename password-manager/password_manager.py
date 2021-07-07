@@ -14,8 +14,8 @@ class PasswordManager:
 
     def _set_canvas(self):
         self.canvas = Canvas(height=200, width=200)
-        self.canvas.create_image(
-            100, 100, image=PhotoImage(file='static/logo.png'))
+        self.image = PhotoImage(file=r'static/logo.png')
+        self.canvas.create_image(100, 100, image=self.image)
         self.canvas.grid(row=0, column=1)
 
     def _set_labels(self):
