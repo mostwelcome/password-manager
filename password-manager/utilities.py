@@ -1,13 +1,13 @@
 """Utilities for password manager."""
 import random
 import json
-from tkinter import messagebox
+from tkinter import messagebox, Entry
 import pyperclip
 from constants.constants import LETTERS, DIGITS, SYMBOLS, NO_OF_LETTERS, NO_OF_DIGITS, NO_OF_SYMBOLS, END
 from constants.messages import WEBSITE_DETAILS_MSG, NO_DATA_ERR, NO_DATA_WEBSITE_ERR, EMPTY_FIELD_ERR, SUCCESS_MSG, FAILURE_MSG
 
 
-def generate_password(password_entry):
+def generate_password(password_entry: Entry) -> None:
     """Generate password."""
     if len(password_entry.get()) != 0:
         password_entry.delete(0, END)
@@ -26,7 +26,7 @@ def generate_password(password_entry):
     pyperclip.copy(password)
 
 
-def search_password(website_entry):
+def search_password(website_entry: Entry) -> None:
     """Search password."""
     website = website_entry.get()
     if not website:
@@ -45,7 +45,7 @@ def search_password(website_entry):
             messagebox.showinfo(message=NO_DATA_ERR)
 
 
-def save(website_entry, email_entry, password_entry):
+def save(website_entry: Entry, email_entry: Entry, password_entry: Entry) -> Entry:
     """Save password."""
     website = website_entry.get()
     email = email_entry.get()
